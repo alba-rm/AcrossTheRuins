@@ -21,11 +21,13 @@ public class TPSController : MonoBehaviour
     [SerializeField] private float _sensorRadius = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded;
+    private Animator _animator;
     
  void Awake()
     {
         _controller = GetComponent<CharacterController>();
         _camera = Camera.main.transform;
+        _animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -39,6 +41,8 @@ public class TPSController : MonoBehaviour
     void Movement()
     {
         Vector3 direction = new Vector3(_horizontal, 0, _vertical);
+        _animator.SetFloat("VelX", 0);
+        _animator.SetFloat("VelZ", direction.magnitude);
 
         if(direction != Vector3.zero)
         {
@@ -53,6 +57,7 @@ public class TPSController : MonoBehaviour
     void Jump()
     {
         _isGrounded = Physics.CheckSphere(_sensorPosition.position, _sensorRadius, _groundLayer);
+        _animator.SetBool("IsJumping", !_isGrounded);
 
         if(_isGrounded && _playerGravity.y < 0)
         {
