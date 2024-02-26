@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9888e7af5c18c7842a106689e55a68b7
+guid: c6f64cedac827a542aa324bce6cd8489
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -48,11 +48,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: run
-      takeName: ArmatureNatFL|ArmatureNatFLAction.001
-      internalID: -2827238649916056085
+      name: idle
+      takeName: ArmatureNatFL|ArmatureNatFLAction
+      internalID: 6018823727867237550
       firstFrame: 0
-      lastFrame: 23
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
