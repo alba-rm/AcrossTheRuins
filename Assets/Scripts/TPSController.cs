@@ -72,6 +72,7 @@ public class TPSController : MonoBehaviour
             _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
 
+        //Ladder
         float avoidFloorDistance = .1f;
         float ladderGrabDistance = .4f;
         if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, direction, out RaycastHit raycastHit, ladderGrabDistance))
@@ -82,7 +83,7 @@ public class TPSController : MonoBehaviour
                 direction.y = direction.z;
                 direction.z = 0f;
                 _isGrounded = true;
-                moveDirection =0f;
+                _playerSpeed = 1f;
 
             }
             Debug.Log(raycastHit.transform);
