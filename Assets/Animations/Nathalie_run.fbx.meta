@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6fedde57619edfb4fb6cd0263d0c3f4e
+guid: bcbf5842c523d424480dc0c5475c6631
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -18,6 +18,11 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: RopaNat
+    second: {fileID: 2100000, guid: 7e1108981b8b870459a694751e4c1cee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RopaNat.001
     second: {fileID: 2100000, guid: 7e1108981b8b870459a694751e4c1cee, type: 2}
   materials:
     materialImportMode: 2
@@ -48,11 +53,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Run
+      name: run
       takeName: ArmatureNatFL|ArmatureNatFLAction.001
       internalID: -2827238649916056085
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 21
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

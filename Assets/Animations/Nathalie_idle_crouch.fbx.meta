@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7b072b2c308773c47b29364328b8548b
+guid: 168791290645ed244915e03c06b157a4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -48,7 +48,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
+      name: idleCrouch
       takeName: ArmatureNatFL|ArmatureNatFLAction
       internalID: 6018823727867237550
       firstFrame: 0

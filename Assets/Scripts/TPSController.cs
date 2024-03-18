@@ -32,6 +32,14 @@ public class TPSController : MonoBehaviour
     private GameObject grabedObject;
     [SerializeField] private Transform _interactionZone;
     [SerializeField] private float _pushForce = 5;
+
+    //Escalada
+    public float velocidadEscalada = 5f;
+    public float distanciaMaxima = 2f;
+    public Transform puntoInicioEscalada;
+
+    private bool escalando = false;
+    private Vector3 puntoFinalEscalada;
     
  void Awake()
     {
@@ -55,6 +63,49 @@ public class TPSController : MonoBehaviour
             ThrowObject();
         }
         Crouch();
+        if (escalando)
+        {
+            float movimientoVertical = Input.GetAxis("Vertical");
+            Vector3 movimiento = new Vector3(0, movimientoVertical, 0) * Time.deltaTime * velocidadEscalada;
+            transform.Translate(movimiento);
+            if (Vector3.Distance(transform.position, puntoFinalEscalada) >= distanciaMaxima)
+            {
+                FinalizarEscalada();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ComenzarEscalada();
+            }
+        }
+    }
+    void ComenzarEscalada()
+    {
+        escalando = true;
+        puntoFinalEscalada = puntoInicioEscalada.position + Vector3.up * distanciaMaxima; 
+    }
+    // Método para finalizar la escalada
+    void FinalizarEscalada()
+    {
+        escalando = false;
+    }
+    // Método para detectar la colisión con el trigger de escalada
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Escalable"))
+        {
+            puntoInicioEscalada = other.transform;
+        }
+    }
+    // Método para salir del trigger de escalada
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Escalable"))
+        {
+            FinalizarEscalada();
+        }
     }
     
     void Movement()
@@ -71,9 +122,8 @@ public class TPSController : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0,targetAngle, 0) * Vector3.forward;
             _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
-
-        //Ladder
-        float avoidFloorDistance = .1f;
+        //Ladder no funciona
+        /*float avoidFloorDistance = .1f;
         float ladderGrabDistance = .4f;
         if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, direction, out RaycastHit raycastHit, ladderGrabDistance))
         {
@@ -83,17 +133,11 @@ public class TPSController : MonoBehaviour
                 direction.y = direction.z;
                 direction.z = 0f;
                 _isGrounded = true;
-                _playerSpeed = 1f;
+                
 
             }
             Debug.Log(raycastHit.transform);
-        }
-      
-
-
-
-
-
+        }*/
     }
     void Crouch()
     {
@@ -111,19 +155,21 @@ public class TPSController : MonoBehaviour
             if(_crouch == true && _canStand == true)
             {
                 _crouch = false;
-                //_animator.SetBool("Crouch", false);
+                _animator.SetBool("IsCrouching", false);
                 _jumpHeight = 1;
                 _controller.height = 2f;
                 _playerSpeed = 5;
+                _controller.center = new Vector3(0f, 0f, 0f);
                 
             }
             else
             {
                 _crouch = true;
-                //_animator.SetBool("Crouch", true);
+                _animator.SetBool("IsCrouching", true);
                 _jumpHeight = 0;
-                _controller.height = 1f;
+                _controller.height = 1.5f;
                 _playerSpeed = 2;
+                _controller.center = new Vector3(0f, -0.2f, 0f);
             }
         }
         

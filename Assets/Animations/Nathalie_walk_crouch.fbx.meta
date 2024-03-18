@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7b072b2c308773c47b29364328b8548b
+guid: d67b12cd843258c42ab84ee4755412dd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -48,11 +48,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Idle
+      name: walk_crouch
       takeName: ArmatureNatFL|ArmatureNatFLAction
       internalID: 6018823727867237550
       firstFrame: 0
-      lastFrame: 59
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

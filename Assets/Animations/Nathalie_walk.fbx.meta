@@ -19,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: RopaNat
     second: {fileID: 2100000, guid: 7e1108981b8b870459a694751e4c1cee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RopaNat.001
+    second: {fileID: 2100000, guid: 7e1108981b8b870459a694751e4c1cee, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
