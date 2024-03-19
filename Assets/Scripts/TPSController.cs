@@ -40,6 +40,11 @@ public class TPSController : MonoBehaviour
 
     private bool escalando = false;
     private Vector3 puntoFinalEscalada;
+
+    //Disparo
+    [SerializeField] Transform gunPosition;
+    [SerializeField] int ammo;
+    public GameObject bullet;
     
  void Awake()
     {
@@ -78,6 +83,15 @@ public class TPSController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 ComenzarEscalada();
+            }
+        }
+        //Disparo
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(ammo > 0)
+            {
+                Instantiate(bullet, gunPosition.position, gunPosition.rotation);
+                ammo = ammo -1;
             }
         }
     }
@@ -234,5 +248,7 @@ public class TPSController : MonoBehaviour
         Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDirection * _pushForce / body.mass;
     }
+
+    
       
 }
