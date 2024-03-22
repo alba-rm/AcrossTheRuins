@@ -4,18 +4,37 @@ using UnityEngine;
 
 public class CambioPersonaje : MonoBehaviour
 {
-   public List<GameObject> characters; 
-    public float followDistance = 2f; 
-    public float distanceBehind = 1.5f; 
-    private int currentIndex = 0; 
-    private CharacterController currentPlayerController; 
+    public List<GameObject> characters; 
+    private int currentIndex = 0;
+    public List<IAFollow> IaControllers;
+    public TPSController controllers;
+    public TPSControllerJac controllerJac;
+
+    FollowCamera cameraScript;
+
+    void Awake()
+    {
+        cameraScript = Camera.main.GetComponent<FollowCamera>();
+    }
 
     void Start()
     {
-        if (characters.Count > 0)
+        //ChangeCharacter(0);
+        foreach(GameObject character in characters)
         {
-            currentPlayerController = characters[currentIndex].GetComponent<CharacterController>();
-            currentPlayerController.enabled = true;
+            IAFollow Ia = character.GetComponent<IAFollow>();
+            IaControllers.Add(Ia);
+            TPSController controller = character.GetComponent<TPSController>();
+            if( controller != null)
+            {
+                controllers = controller;
+            }
+            TPSControllerJac Jac = character.GetComponent<TPSControllerJac>();
+            if( Jac != null)
+            {
+                controllerJac = Jac;
+            }
+            
         }
     }
 
@@ -23,37 +42,55 @@ public class CambioPersonaje : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ChangeCharacter();
+            ChangeCharacter((currentIndex + 1) % characters.Count);
         }
     }
 
-    void ChangeCharacter()
+    void ChangeCharacter(int newIndex)
     {
-        currentPlayerController.enabled = false;
-
-        currentIndex = (currentIndex + 1) % characters.Count;
-        currentPlayerController = characters[currentIndex].GetComponent<CharacterController>();
-        currentPlayerController.enabled = true;
-    }
-
-    void FixedUpdate()
-    {
-        Vector3 targetPosition = characters[currentIndex].transform.position;
-       
-        Vector3 behindDirection = -characters[currentIndex].transform.forward;
-
-        foreach (GameObject character in characters)
+        currentIndex = newIndex;
+        //IaControllers[currentIndex].enabled = true;
+        //IaControllers[(currentIndex + 1) % characters.Count].enabled = false;
+        /*if(currentIndex == 0)
         {
-            if (character != characters[currentIndex])
-            {
-                
-                CharacterController controller = character.GetComponent<CharacterController>();
-                if (controller.enabled)
-                {
-                    Vector3 targetBehindPosition = targetPosition + behindDirection * distanceBehind;
-                    controller.Move((targetBehindPosition - character.transform.position) * Time.fixedDeltaTime);
-                }
-            }
+            controllers.enabled = false;
+        }
+        else
+        {
+            controllerJac.enabled = false;
+        }
+        if(currentIndex == 0)
+        {
+            controllers.enabled = false;
+        }
+        else
+        {
+            controllerJac.enabled = false;
+        }*/
+
+        if(currentIndex == 0)
+        {
+            IaControllers[1].agent.Stop();
+
+            controllers.enabled = false;
+            controllerJac.enabled = true;
+            IaControllers[0].enabled = true;
+            IaControllers[1].enabled = false;
+            cameraScript.followPlayer = characters[1].transform;
+
+            IaControllers[0].agent.Resume();
+        }
+        else
+        {
+            IaControllers[0].agent.Stop();
+
+            controllers.enabled = true;
+            controllerJac.enabled = false;
+            IaControllers[0].enabled = false;
+            IaControllers[1].enabled = true;
+            cameraScript.followPlayer = characters[0].transform;
+
+            IaControllers[1].agent.Resume();
         }
     }
 }

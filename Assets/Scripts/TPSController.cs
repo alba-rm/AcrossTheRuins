@@ -34,12 +34,9 @@ public class TPSController : MonoBehaviour
     [SerializeField] private float _pushForce = 5;
 
     //Escalada
-    public float velocidadEscalada = 5f;
-    public float distanciaMaxima = 2f;
-    public Transform puntoInicioEscalada;
-
-    private bool escalando = false;
-    private Vector3 puntoFinalEscalada;
+    public float velocidadElevacion = 5f; 
+    private bool activarElevacion = false;
+    
 
     //Disparo
     [SerializeField] Transform gunPosition;
@@ -68,23 +65,6 @@ public class TPSController : MonoBehaviour
             ThrowObject();
         }
         Crouch();
-        if (escalando)
-        {
-            float movimientoVertical = Input.GetAxis("Vertical");
-            Vector3 movimiento = new Vector3(0, movimientoVertical, 0) * Time.deltaTime * velocidadEscalada;
-            transform.Translate(movimiento);
-            if (Vector3.Distance(transform.position, puntoFinalEscalada) >= distanciaMaxima)
-            {
-                FinalizarEscalada();
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                ComenzarEscalada();
-            }
-        }
         //Disparo
         if (Input.GetMouseButtonDown(0))
         {
@@ -94,32 +74,14 @@ public class TPSController : MonoBehaviour
                 ammo = ammo -1;
             }
         }
-    }
-    void ComenzarEscalada()
-    {
-        escalando = true;
-        puntoFinalEscalada = puntoInicioEscalada.position + Vector3.up * distanciaMaxima; 
-    }
-    // Método para finalizar la escalada
-    void FinalizarEscalada()
-    {
-        escalando = false;
-    }
-    // Método para detectar la colisión con el trigger de escalada
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Escalable"))
+        if (activarElevacion && Input.GetKey(KeyCode.L))
         {
-            puntoInicioEscalada = other.transform;
+            transform.Translate(Vector3.up * velocidadElevacion * Time.deltaTime);
         }
     }
-    // Método para salir del trigger de escalada
-    void OnTriggerExit(Collider other)
+    public void ActivarElevacion(bool activar)
     {
-        if (other.CompareTag("Escalable"))
-        {
-            FinalizarEscalada();
-        }
+        activarElevacion = activar;
     }
     
     void Movement()
@@ -136,22 +98,6 @@ public class TPSController : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0,targetAngle, 0) * Vector3.forward;
             _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
-        //Ladder no funciona
-        /*float avoidFloorDistance = .1f;
-        float ladderGrabDistance = .4f;
-        if (Physics.Raycast(transform.position + Vector3.up * avoidFloorDistance, direction, out RaycastHit raycastHit, ladderGrabDistance))
-        {
-            if(raycastHit.transform.TryGetComponent(out Ladder ladder))
-            {
-                direction.x = 0f;
-                direction.y = direction.z;
-                direction.z = 0f;
-                _isGrounded = true;
-                
-
-            }
-            Debug.Log(raycastHit.transform);
-        }*/
     }
     void Crouch()
     {

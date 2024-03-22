@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            TPSController elevacionJugador = other.GetComponent<TPSController>();
+            if (elevacionJugador != null)
+            {
+                elevacionJugador.ActivarElevacion(true);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            TPSController elevacionJugador = other.GetComponent<TPSController>();
+            if (elevacionJugador != null)
+            {
+                elevacionJugador.ActivarElevacion(false);
+            }
+        }
     }
 }

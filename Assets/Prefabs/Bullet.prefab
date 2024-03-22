@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81be42b09c031504c8f3ece48b2baefa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 100
-  despawnTime: 10
+  bulletSpeed: 1000
+  despawnTime: 5
   rbBullet: {fileID: 4444328822784058485}
 --- !u!1 &8185164825685451986
 GameObject:
