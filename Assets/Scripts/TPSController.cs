@@ -11,8 +11,10 @@ public class TPSController : MonoBehaviour
     [SerializeField] private float _playerSpeed = 5;
     [SerializeField] private float _jumpHeight = 1;
 
+
+    //Crouch
     [SerializeField] private GameObject HeadPosition;
-    [SerializeField] private bool _crouch = false;
+    [SerializeField] public bool _crouch = false;
     [SerializeField] private bool _canStand;
 
     private float _gravity = -9.81f;
@@ -86,6 +88,7 @@ public class TPSController : MonoBehaviour
     
     void Movement()
     {
+        _crouch = false;
         Vector3 direction = new Vector3(_horizontal, 0, _vertical);
         _animator.SetFloat("VelX", 0);
         _animator.SetFloat("VelZ", direction.magnitude);
@@ -132,7 +135,6 @@ public class TPSController : MonoBehaviour
                 _controller.center = new Vector3(0f, -0.2f, 0f);
             }
         }
-        
     }
 
     void Jump()
@@ -194,7 +196,5 @@ public class TPSController : MonoBehaviour
         Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDirection * _pushForce / body.mass;
     }
-
-    
-      
+ 
 }

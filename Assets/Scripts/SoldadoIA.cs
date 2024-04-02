@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-//Poner 
 
 public class SoldadoIA : MonoBehaviour
 {
-    //Hacer state maching
     public enum State
     {
         Patrolling,
@@ -24,21 +22,19 @@ public class SoldadoIA : MonoBehaviour
     
     [SerializeField] float visionRange = 10;
     [SerializeField] float visionAngle = 90;
-
-    //Detectar jugador
+    
     [SerializeField] private float detectionRange = 15;
+    
 
     //Rango de ataque
-    [SerializeField] private float attackRange = 5;
+    [SerializeField] private float attackRange = 2;
 
     [SerializeField] float searchTimer;
     [SerializeField] float searchWaitTime = 15;
     [SerializeField] float searchRadius = 30;
 
     Vector3 lastTargetPosition;
-
     Animator anim;
-
 
 
 
@@ -48,7 +44,7 @@ public class SoldadoIA : MonoBehaviour
         player = GameObject.FindWithTag("Player").transform;
         anim = GetComponent<Animator>();
     }
-    //Decir estado inicial
+    
     void Start()
     {
         SetRandomPoint();
@@ -72,8 +68,8 @@ public class SoldadoIA : MonoBehaviour
                 Search();
             break;
         }
-        anim.SetFloat("VelX", 0);
-        anim.SetFloat("VelZ", agent.velocity.magnitude);
+        //anim.SetFloat("VelX", 0);
+        //anim.SetFloat("VelZ", agent.velocity.magnitude);
         
     }
 
@@ -115,19 +111,6 @@ public class SoldadoIA : MonoBehaviour
         agent.destination = patrolPoints[Random.Range(0, patrolPoints.Length)].position;
     }
 
-    /*bool IsInRange(float range)
-    {
-        if(Vector3.Distance(transform.position, player.position) < range)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }*/
-
     void Search()
     {
         if(IsInRange() == true)
@@ -153,7 +136,7 @@ public class SoldadoIA : MonoBehaviour
         }
     }
 
-     bool IsInRange()
+    bool IsInRange()
     {
         Vector3 directionToPlayer = player.position - transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;

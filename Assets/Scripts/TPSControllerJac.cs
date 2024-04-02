@@ -184,7 +184,6 @@ public class TPSControllerJac : MonoBehaviour
                 _controller.center = new Vector3(0f, -0.2f, 0f);
             }
         }
-        
     }
 
     void Jump()
