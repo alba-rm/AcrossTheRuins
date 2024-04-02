@@ -4,34 +4,49 @@ using UnityEngine;
 
 public class PlataformMove : MonoBehaviour
 {
-    public Transform puntoInicial;
+   public Transform puntoInicial;
     public Transform puntoFinal;
     public float velocidad = 2.0f;
-    
+
+    private Vector3 direccion;
     private Vector3 objetivo;
 
     void Start()
     {
-        objetivo = puntoFinal.position;
+        CalcularDirection();
+        CalcularObjetivo();
     }
 
     void Update()
     {
-        MovePlataform();
+        MoverPlataforma();
     }
 
-    void MovePlataform()
+    void MoverPlataforma()
     {
         transform.position = Vector3.MoveTowards(transform.position, objetivo, velocidad * Time.deltaTime);
 
         if (transform.position == puntoFinal.position)
         {
-            objetivo = puntoInicial.position;
+            CalcularDirection();
+            CalcularObjetivo();
         }
         else if (transform.position == puntoInicial.position)
         {
-            objetivo = puntoFinal.position;
+            CalcularDirection();
+            CalcularObjetivo();
         }
     }
+
+    void CalcularDirection()
+    {
+        direccion = (puntoFinal.position - puntoInicial.position).normalized;
+    }
+
+    void CalcularObjetivo()
+    {
+        objetivo = (transform.position == puntoInicial.position) ? puntoFinal.position : puntoInicial.position;
+    }
 }
+
 

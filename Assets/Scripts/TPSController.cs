@@ -66,7 +66,17 @@ public class TPSController : MonoBehaviour
         {
             ThrowObject();
         }
-        Crouch();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if(_crouch == true)
+            {
+                Stand();
+            }
+            else
+            {
+                Crouch();
+            }            
+        }
         //Disparo
         if (Input.GetMouseButtonDown(0))
         {
@@ -88,7 +98,6 @@ public class TPSController : MonoBehaviour
     
     void Movement()
     {
-        _crouch = false;
         Vector3 direction = new Vector3(_horizontal, 0, _vertical);
         _animator.SetFloat("VelX", 0);
         _animator.SetFloat("VelZ", direction.magnitude);
@@ -102,7 +111,7 @@ public class TPSController : MonoBehaviour
             _controller.Move(moveDirection.normalized * _playerSpeed * Time.deltaTime);
         }
     }
-    void Crouch()
+    void CheckCrouch()
     {
         if (Physics.Raycast(HeadPosition.transform.position, Vector3.up, 0.5f))
         {
@@ -113,10 +122,25 @@ public class TPSController : MonoBehaviour
         {
             _canStand = true;
         }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if(_crouch == true && _canStand == true)
+    }
+    void Crouch()
+    {                   
+                //Me agacho
+                Debug.Log("Me agacho");
+                _crouch = true;
+                _animator.SetBool("IsCrouching", true);
+                _jumpHeight = 0;
+                _controller.height = 1.5f;
+                _playerSpeed = 2;
+                _controller.center = new Vector3(0f, -0.2f, 0f);
+    }
+    void Stand()
+    {
+        CheckCrouch();
+        if(_canStand == true)
             {
+                //Me levanto
+                Debug.Log("Me levanto");
                 _crouch = false;
                 _animator.SetBool("IsCrouching", false);
                 _jumpHeight = 1;
@@ -125,16 +149,6 @@ public class TPSController : MonoBehaviour
                 _controller.center = new Vector3(0f, 0f, 0f);
                 
             }
-            else
-            {
-                _crouch = true;
-                _animator.SetBool("IsCrouching", true);
-                _jumpHeight = 0;
-                _controller.height = 1.5f;
-                _playerSpeed = 2;
-                _controller.center = new Vector3(0f, -0.2f, 0f);
-            }
-        }
     }
 
     void Jump()
