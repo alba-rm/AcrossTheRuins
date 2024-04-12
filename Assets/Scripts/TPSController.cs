@@ -44,6 +44,7 @@ public class TPSController : MonoBehaviour
     [SerializeField] Transform gunPosition;
     [SerializeField] int ammo;
     public GameObject bullet;
+
     
  void Awake()
     {
@@ -163,8 +164,10 @@ public class TPSController : MonoBehaviour
         if(_isGrounded && Input.GetButtonDown("Jump"))
         {
             _playerGravity.y = Mathf.Sqrt(_jumpHeight * -2 * _gravity);
-        }
+            //_animator.SetBool("IsJumping", true);
+        }        
         _playerGravity.y += _gravity * Time.deltaTime;
+        
         _controller.Move(_playerGravity * Time.deltaTime);
     }
     void GrabObject()
@@ -210,5 +213,5 @@ public class TPSController : MonoBehaviour
         Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
         body.velocity = pushDirection * _pushForce / body.mass;
     }
- 
 }
+
